@@ -11,7 +11,6 @@ import {
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import "./LoginComponent.css";
 import { useAuth } from "../security/AuthProvider";
-import LoggedOutAlert from "./LoggedoutAlert";
 import { Link } from "react-router-dom";
 
 const LoginComponent = () => {

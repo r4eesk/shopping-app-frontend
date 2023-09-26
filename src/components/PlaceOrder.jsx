@@ -14,10 +14,13 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../security/AuthProvider";
 import { getAddressListApi } from "../services/AddressService";
 import CartTotal from "./CartTotal";
+import { useNavigate } from "react-router-dom";
+import { purchaseApi } from "../services/OrderService";
 
 const PlaceOrder = () => {
   const [addressList, setAddressList] = useState([]);
   const [address, setAddress] = useState({});
+  const [outOfStockMessage, setOutOfStockMessage] = useState(false);
 
   const [addressModal, setAddressModal] = useState(false);
   const toggleShow = () => setAddressModal(!addressModal);
@@ -43,12 +46,37 @@ const PlaceOrder = () => {
     toggleShow();
   };
 
+  const navigate = useNavigate()
+  const purchase = () => {
+    purchaseApi(user, address.id, token)
+      .then(response => navigate(`/orders/${user}`))
+      .catch(error => {
+        if (error.response.data.message === "Product is not available") {
+          setOutOfStockMessage(true);
+          setTimeout(() => setOutOfStockMessage(true), 7000)
+        }
+        else {
+          authContext.logout(true, true)
+        }
+      })
+  }
+
   useEffect(() => {
     getAddressList();
   }, [user, token]);
   return (
     <MDBContainer className="my-3">
       <h3>Place Order</h3>
+      <div className="position-absolute  top-0 start-50 translate-middle-x sticky-top">
+        {outOfStockMessage && (
+          <div
+            className="alert alert-warning alert-dismissible fade show"
+            role="alert"
+          >
+            One or more product is Out of Stock!!! Please remove it from the cart and continue purchasing.
+          </div>
+        )}
+      </div>
       <MDBRow className="text-start">
         <MDBCol md="4">
           <h6>Deliver To : </h6>
@@ -75,11 +103,11 @@ const PlaceOrder = () => {
           </div>
         </MDBCol>
         <MDBCol md="5" >
-          <CartTotal purchase={true} />
+          <CartTotal purchase={true} purchaseApi={purchase}/>
         </MDBCol>
       </MDBRow>
       <MDBRow>
-        
+
       </MDBRow>
 
       <MDBModal
@@ -101,24 +129,24 @@ const PlaceOrder = () => {
             <MDBModalBody>
               <div>
                 {addressList.map((adres) => {
-                    var selected = "";
-                    if (adres.id===address.id) selected="border-primary border-2"
+                  var selected = "";
+                  if (adres.id === address.id) selected = "border-primary border-2"
                   return (
-                      <div
-                        className={"border rounded p-2 my-3 hover-shadow "+selected}
-                        onClick={() => selectAddress(adres)}
-                      >
-                        {adres.fullName}
-                        <br />
-                        {adres.addressLine1}
-                        <br />
-                        {adres.addressLine2}
-                        <br />
-                        {adres.city}
-                        <br />
-                        {adres.pincode}
-                        <br />
-                      </div>
+                    <div
+                      className={"border rounded p-2 my-3 hover-shadow " + selected}
+                      onClick={() => selectAddress(adres)}
+                    >
+                      {adres.fullName}
+                      <br />
+                      {adres.addressLine1}
+                      <br />
+                      {adres.addressLine2}
+                      <br />
+                      {adres.city}
+                      <br />
+                      {adres.pincode}
+                      <br />
+                    </div>
                   );
                 })}
                 <h5>Go to <span className="fst-italic fw-bolder">Profile -&gt; Address </span> to add new address</h5>

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { useAuth } from "../security/AuthProvider";
-import { getCartApi, getTotalApi } from "../services/CartService";
+import { getCartApi } from "../services/CartService";
 import CartItem from "./CartItem";
 import CartTotal from "./CartTotal";
 

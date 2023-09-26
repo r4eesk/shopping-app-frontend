@@ -9,3 +9,11 @@ export const getOrdersListApi = (userId,token) => {
     },
   });
 };
+
+export const purchaseApi = (userId,addressId,token) => {
+  return apiService.post(`/order/new/${userId}?addressId=${addressId}`,{}, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

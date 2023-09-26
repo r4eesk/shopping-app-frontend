@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../security/AuthProvider";
 import { getTotalApi } from "../services/CartService";
 
-const CartTotal = ({ totalItems, purchase }) => {
+const CartTotal = ({ totalItems, purchase,purchaseApi }) => {
   const [total, setTotal] = useState({
     cartTotal: 0.0,
     delivery: 0.0,
@@ -90,7 +90,7 @@ const CartTotal = ({ totalItems, purchase }) => {
       )}
 
       {total.total !== 0 && purchase && (
-        <MDBBtn color="success my-4" >
+        <MDBBtn color="success my-4" onClick={purchaseApi} >
           Purchase
         </MDBBtn>
       )}
