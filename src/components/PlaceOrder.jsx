@@ -21,6 +21,7 @@ const PlaceOrder = () => {
   const [addressList, setAddressList] = useState([]);
   const [address, setAddress] = useState({});
   const [outOfStockMessage, setOutOfStockMessage] = useState(false);
+  const [emptyAddress, setEmptyAddress] = useState(true);
 
   const [addressModal, setAddressModal] = useState(false);
   const toggleShow = () => setAddressModal(!addressModal);
@@ -33,8 +34,13 @@ const PlaceOrder = () => {
     getAddressListApi(user, token)
       .then((response) => {
         const data = response.data;
-        setAddressList(data);
-        setAddress(data[0]);
+        if (data.length === 0) setEmptyAddress(true);
+        else {
+          setEmptyAddress(false);
+          setAddressList(data);
+          setAddress(data[0]);
+        }
+
       })
       .catch((error) => {
         authContext.logout(true, true);
@@ -78,7 +84,11 @@ const PlaceOrder = () => {
         )}
       </div>
       <MDBRow className="text-start">
-        <MDBCol md="4">
+        {emptyAddress && <MDBCol md="4">
+          <h4>Address List is Empty!!!</h4>
+          <h5>Go to <span className="fst-italic fw-bolder">Profile -&gt; Address </span> to add new address</h5>
+        </MDBCol>}
+        {!emptyAddress && <MDBCol md="4">
           <h6>Deliver To : </h6>
           {address.fullName}
           <br />
@@ -90,7 +100,7 @@ const PlaceOrder = () => {
           <br />
           {address.pincode}
           <br />
-        </MDBCol>
+        </MDBCol>}
         <MDBCol md="3" className="p-5">
           <div className="text-center">
             <MDBBtn
@@ -103,7 +113,7 @@ const PlaceOrder = () => {
           </div>
         </MDBCol>
         <MDBCol md="5" >
-          <CartTotal purchase={true} purchaseApi={purchase}/>
+          <CartTotal purchase={true} purchaseApi={purchase} />
         </MDBCol>
       </MDBRow>
       <MDBRow>
