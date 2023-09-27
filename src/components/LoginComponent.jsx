@@ -12,6 +12,7 @@ import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import "./LoginComponent.css";
 import { useAuth } from "../security/AuthProvider";
 import { Link } from "react-router-dom";
+import { PiGithubLogoFill } from "react-icons/pi";
 
 const LoginComponent = () => {
   const [username, setUsername] = useState("raeesk");
@@ -102,17 +103,7 @@ const LoginComponent = () => {
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
           </div>
 
-          <MDBBtn
-            className="mb-4 w-100"
-            size="lg"
-            style={{ backgroundColor: "#3b5998" }}
-          >
-            <MDBIcon className="mx-2" />
-            <span className="p-2">
-              <FaFacebookF />
-            </span>{" "}
-            Continue with Facebook
-          </MDBBtn>
+          
 
           <MDBBtn
             className="mb-4 w-100"
@@ -121,9 +112,33 @@ const LoginComponent = () => {
           >
             <MDBIcon className="mx-2" />
             <span className="p-2">
-              <FaGoogle />
+              <FaGoogle size={22}/>
             </span>{" "}
             Continue with Google
+          </MDBBtn>
+
+          <MDBBtn
+            className="mb-4 w-100"
+            size="lg"
+            style={{ backgroundColor: "#3b5998" }}
+          >
+            <MDBIcon className="mx-2" />
+            <span className="p-2">
+              <FaFacebookF size={22}/>
+            </span>{" "}
+            Continue with Facebook
+          </MDBBtn>
+
+          <MDBBtn
+            className="mb-4 w-100"
+            size="lg"
+            style={{ backgroundColor: "#333" }}
+          >
+            <MDBIcon className="mx-2" />
+            <span className="p-2">
+              <PiGithubLogoFill size={22} />
+            </span>{" "}
+            Continue with Github
           </MDBBtn>
         </MDBCol>
       </MDBRow>
