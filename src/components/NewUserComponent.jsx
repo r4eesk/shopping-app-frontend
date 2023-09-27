@@ -16,6 +16,9 @@ import {
   registerUserApi,
 } from "../services/UserService";
 import { useNavigate } from "react-router";
+import { AiFillGoogleCircle, AiOutlineGoogle } from "react-icons/ai";
+import { PiGithubLogoFill } from "react-icons/pi";
+import { FaFacebookF } from "react-icons/fa";
 
 const NewUserComponent = () => {
   const [firstname, setFirstname] = useState("");
@@ -210,20 +213,16 @@ const NewUserComponent = () => {
             <div className="text-center">
               <p>or sign up with:</p>
 
-              <MDBBtn floating color="secondary" className="mx-1">
-                <MDBIcon fab icon="facebook-f" />
+              <MDBBtn floating color="danger" className="mx-1">
+                <AiOutlineGoogle size={22} />
               </MDBBtn>
 
-              <MDBBtn floating color="secondary" className="mx-1">
-                <MDBIcon fab icon="google" />
+              <MDBBtn floating color="primary" className="mx-1">
+                <FaFacebookF size={22}/>
               </MDBBtn>
 
-              <MDBBtn floating color="secondary" className="mx-1">
-                <MDBIcon fab icon="twitter" />
-              </MDBBtn>
-
-              <MDBBtn floating color="secondary" className="mx-1">
-                <MDBIcon fab icon="github" />
+              <MDBBtn floating color="dark" className="mx-1">
+                <PiGithubLogoFill size={22}/>
               </MDBBtn>
             </div>
           </form>
