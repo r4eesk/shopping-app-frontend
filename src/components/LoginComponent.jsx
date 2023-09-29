@@ -35,12 +35,14 @@ const LoginComponent = () => {
     
   }
 
+  const loginImage="/login-background/"+Math.ceil(Math.random() * (9 - 1) + 1)+".jpeg";
+
   return (
     <MDBContainer fluid className="p-3 my-5">
       <MDBRow>
         <MDBCol col="10" md="6">
           <img
-            src="/login-background-2.png"
+            src={loginImage}
             className="img-fluid"
             alt="Login"
           />
@@ -92,14 +94,14 @@ const LoginComponent = () => {
             Sign in
           </MDBBtn>
 
-          <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+          <p className="pb-lg-2" style={{ color: "#393f81" }}>
             Don't have an account?{" "}
             <Link to="/register" style={{ color: "#393f81" }}>
               Register here
             </Link>
           </p>
 
-          <div className="divider d-flex align-items-center my-4">
+          <div className="divider d-flex align-items-center my-1">
             <p className="text-center fw-bold mx-3 mb-0">OR</p>
           </div>
 
