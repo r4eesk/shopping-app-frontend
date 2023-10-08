@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   MDBContainer,
   MDBCol,
@@ -15,8 +15,8 @@ import { Link } from "react-router-dom";
 import { PiGithubLogoFill } from "react-icons/pi";
 
 const LoginComponent = () => {
-  const [username, setUsername] = useState("raeesk");
-  const [password, setPassword] = useState("raeesk");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [emtyFields,setEmptyFields] = useState(false)
   const onChangeUsername = (event) => setUsername(event.target.value);
   const onChangePassword = (event) => setPassword(event.target.value);
@@ -35,7 +35,8 @@ const LoginComponent = () => {
     
   }
 
-  const loginImage="/login-background/"+Math.ceil(Math.random() * (9 - 1) + 1)+".jpeg";
+  const loginImage= useMemo(()=> "/login-background/"+Math.ceil(Math.random() * (9 - 1) + 1)+".jpeg",[]);
+
 
   return (
     <MDBContainer fluid className="p-3 my-5">
