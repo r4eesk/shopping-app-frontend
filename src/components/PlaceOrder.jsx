@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../security/AuthProvider";
 import { getAddressListApi } from "../services/AddressService";
 import CartTotal from "./CartTotal";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { purchaseApi } from "../services/OrderService";
 
 const PlaceOrder = () => {
@@ -84,11 +84,14 @@ const PlaceOrder = () => {
         )}
       </div>
       <MDBRow className="text-start">
-        {emptyAddress && <MDBCol md="4">
+        <MDBCol md="7">
+        {emptyAddress && <MDBCol md="6">
           <h4>Address List is Empty!!!</h4>
-          <h5>Go to <span className="fst-italic fw-bolder">Profile -&gt; Address </span> to add new address</h5>
+          <Link to={`/address/${user}`}>
+            <MDBBtn className="mt-1">Add new address</MDBBtn>
+          </Link>
         </MDBCol>}
-        {!emptyAddress && <MDBCol md="4">
+        {!emptyAddress && <MDBRow><MDBCol md="7">
           <h6>Deliver To : </h6>
           {address.fullName}
           <br />
@@ -100,21 +103,31 @@ const PlaceOrder = () => {
           <br />
           {address.pincode}
           <br />
-        </MDBCol>}
-        <MDBCol md="3" className="p-5">
-          <div className="text-center">
-            <MDBBtn
-              onClick={() => {
-                toggleShow();
-              }}
-            >
-              Select Address
-            </MDBBtn>
-          </div>
+
+
         </MDBCol>
+          <MDBCol md="5" className="p-5">
+            <div className="text-center d-grid">
+              <MDBBtn
+                onClick={() => {
+                  toggleShow();
+                }}
+              >
+                Select Address
+              </MDBBtn>
+              
+              <Link to={`/address/${user}`} className="d-grid">
+                <MDBBtn className="mt-2">Add new address</MDBBtn>
+              </Link>
+            </div>
+          </MDBCol>
+        </MDBRow>}
+        </MDBCol>
+
         <MDBCol md="5" >
           <CartTotal purchase={true} purchaseApi={purchase} />
         </MDBCol>
+
       </MDBRow>
       <MDBRow>
 
@@ -159,7 +172,7 @@ const PlaceOrder = () => {
                     </div>
                   );
                 })}
-                <h5>Go to <span className="fst-italic fw-bolder">Profile -&gt; Address </span> to add new address</h5>
+
               </div>
             </MDBModalBody>
           </MDBModalContent>
