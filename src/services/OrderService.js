@@ -17,3 +17,11 @@ export const purchaseApi = (userId,addressId,token) => {
     },
   });
 };
+
+export const cancelOrderApi = (orderId,token) => {
+  return apiService.post(`/order/cancel/${orderId}`,{}, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

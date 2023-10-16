@@ -1,12 +1,36 @@
-import { MDBBtn, MDBCol, MDBRow, MDBTooltip } from "mdb-react-ui-kit";
+
 import { useEffect, useState } from "react";
 import "./Order.css";
 import { FiPackage } from "react-icons/fi";
 import { FaClipboardCheck, FaShippingFast } from "react-icons/fa";
 import { BiRightArrowAlt } from "react-icons/bi";
 import OrderProduct from "./OrderProduct";
+import { cancelOrderApi } from "../services/OrderService";
+import { useAuth } from "../security/AuthProvider";
+import {
+  MDBBtn,
+  MDBCol,
+  MDBRow,
+  MDBTooltip,
+  MDBModal,
+  MDBModalDialog,
+  MDBModalContent,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from 'mdb-react-ui-kit';
 
 const Order = ({ order }) => {
+
+  const [cancelConfirmWindow, setCancelConfirmWindow] = useState(false);
+
+  const toggleShow = () => setCancelConfirmWindow(current => !current);
+
+  const authContext = useAuth()
+  //const user = authContext.user
+  const token = authContext.token
+
   const [status, setStatus] = useState({
     placed: "",
     packed: "inactive",
@@ -58,6 +82,26 @@ const Order = ({ order }) => {
     }
   };
 
+  const cancelOrder = () => {
+    cancelOrderApi(order.id, token)
+      .then(response => {
+        console.log(response)
+        setStatus({
+          placed: "cancelled",
+          packed: "cancelled",
+          shipped: "cancelled",
+          delivered: "cancelled",
+        });
+        setStatusText({
+          placedText: "Cancelled",
+          packedText: "Cancelled",
+          shippedText: "Cancelled",
+          deliveredText: "Cancelled",
+        })
+      })
+      .catch(error => authContext.logout(true,true))
+  }
+
   useEffect(() => {
     setStatusStyle(order.status);
   }, []);
@@ -95,7 +139,9 @@ const Order = ({ order }) => {
           {order.address.pincode}
         </MDBCol>
         <MDBCol md="2" className="p-5">
-          <MDBBtn color="danger">Cancel</MDBBtn>
+          {status.placed !== "cancelled" && <MDBBtn color="danger" onClick={toggleShow}>Cancel</MDBBtn>}
+          {status.placed === "cancelled" && <MDBBtn color="danger" disabled>Cancelled</MDBBtn>}
+
         </MDBCol>
       </MDBRow>
       <MDBRow className="my-3">
@@ -132,6 +178,32 @@ const Order = ({ order }) => {
           </div>
         </MDBCol>
       </MDBRow>
+
+      <MDBModal tabIndex='-1' show={cancelConfirmWindow} setShow={setCancelConfirmWindow}>
+        <MDBModalDialog centered>
+          <MDBModalContent>
+            <MDBModalHeader>
+              <MDBModalTitle>Modal title</MDBModalTitle>
+              <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+            </MDBModalHeader>
+            <MDBModalBody>
+              <p>
+                Do you want to cancel this order?
+              </p>
+            </MDBModalBody>
+            <MDBModalFooter>
+              <MDBBtn color='primary' onClick={toggleShow}>
+                No
+              </MDBBtn>
+              <MDBBtn color="danger" onClick={() => {
+                cancelOrder();
+                toggleShow();
+              }}>Yes</MDBBtn>
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+
     </div>
   );
 };

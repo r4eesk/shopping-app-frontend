@@ -1,6 +1,5 @@
 import { MDBContainer } from "mdb-react-ui-kit";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
 import { useAuth } from "../security/AuthProvider";
 import { getOrdersListApi} from "../services/OrderService";
 import Order from "./Order";
