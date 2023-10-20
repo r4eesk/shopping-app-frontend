@@ -33,7 +33,7 @@ const ListProductsComponent = () => {
   function getProducts() {
     setIsLoading(true);
     if (category === "All") {
-      getAllProducts(page - 1, sort, noOfItems)
+      getAllProducts(page - 1, sort, noOfItems,stock)
         .then((response) => {
           setProductsArray(response.data.product);
           setTotalPages(response.data.pages);
@@ -47,7 +47,7 @@ const ListProductsComponent = () => {
           })
         );
     } else {
-      getProductsByCategory(category, page - 1, sort, noOfItems)
+      getProductsByCategory(category, page - 1, sort, noOfItems,stock)
         .then((response) => {
           setProductsArray(response.data.product);
           setTotalPages(response.data.pages);
@@ -65,7 +65,7 @@ const ListProductsComponent = () => {
 
   useEffect(() => {
     getProducts();
-  }, [page, category, sort, noOfItems]);
+  }, [page, category, sort, noOfItems,stock]);
 
   const onChangeSort = (event) => {
     var sort = event.target.value;
