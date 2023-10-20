@@ -26,6 +26,7 @@ const ListProductsComponent = () => {
 
   const [category, setCategory] = useState(cookies.category || "All");
   const [sort, setSort] = useState(cookies.sort || "relevance");
+  const [stock, setStock] = useState(false);
 
   const navigate = useNavigate();
 
@@ -137,6 +138,10 @@ const ListProductsComponent = () => {
     setCookie("isF", "false", { path: "/" });
   };
 
+  const onChangeStock = () =>{
+    setStock(!stock);
+  }
+
   return (
     <MDBContainer className="my-4">
       <MDBRow>
@@ -146,6 +151,8 @@ const ListProductsComponent = () => {
             category={category}
             onChangeSort={onChangeSort}
             sort={sort}
+            stock={stock}
+            onChangeStock={onChangeStock}
           />
         </MDBCol>
         <MDBCol md="6">
