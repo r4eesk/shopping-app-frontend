@@ -26,7 +26,7 @@ const ListProductsComponent = () => {
 
   const [category, setCategory] = useState(cookies.category || "All");
   const [sort, setSort] = useState(cookies.sort || "relevance");
-  const [stock, setStock] = useState(false);
+  const [stock, setStock] = useState(cookies.stock||"true");
 
   const navigate = useNavigate();
 
@@ -139,7 +139,9 @@ const ListProductsComponent = () => {
   };
 
   const onChangeStock = () =>{
-    setStock(!stock);
+    var st=!(stock==="true");
+    setStock(st+"");
+    setCookie("stock", st, { path: "/" });
   }
 
   return (

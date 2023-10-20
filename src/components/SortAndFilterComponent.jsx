@@ -55,7 +55,7 @@ const SortAndFilterComponent = ({
         <MDBCheckbox
           id="stock"
           label="Remove out of stock products"
-          checked={stock}
+          checked={stock==="true"}
           onChange={onChangeStock}
         />
       </div>
